@@ -6,7 +6,7 @@ module.exports = {
   reactStrictMode: false,
   distDir: 'build',
   compiler: {
-    swcMinify: true
+    swcMinify: false
   },
   experimental: {
     pageDataCollectionTimeout: 200000,
