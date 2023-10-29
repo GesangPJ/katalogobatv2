@@ -37,7 +37,7 @@ const FormAdmin = () => {
     e.preventDefault()
 
     // Validate the form fields
-    if (!nama || !email || !password || !id_petugas) {
+    if (!nama || !email || !password) {
       // Display an error message if any field is empty
       setErrorMessage('Semua kolom harus diisi!')
 
@@ -48,11 +48,10 @@ const FormAdmin = () => {
       nama,
       email,
       password,
-      id_petugas,
     }
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tambah-admin`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tambah-akun`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -108,21 +107,6 @@ const FormAdmin = () => {
 
   const handleemailChange = (e) => setemail(e.target.value)
 
-  const handleidpetugasChange = (e) => {
-    const inputValue = e.target.value
-
-    // Use a regular expression to allow only numbers and letters
-    if (/^[a-zA-Z0-9]*$/.test(inputValue)) {
-      setidpetugas(inputValue)
-    } else {
-      // Display an error message or prevent input, depending on your preference
-      setErrorMessage('ID hanya boleh huruf dan angka!')
-      setTimeout(() => {
-        setErrorMessage('')
-      }, 5000)
-    }
-  }
-
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword)
   }
@@ -143,18 +127,6 @@ const FormAdmin = () => {
         )}<br></br>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={5}>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                type='text'
-                label='ID'
-                name='id_petugas'
-                placeholder='ID Admin / Petugas'
-                helperText='Masukkan ID'
-                value={id_petugas}
-                onChange={handleidpetugasChange}
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
