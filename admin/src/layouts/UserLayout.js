@@ -8,7 +8,6 @@ import VerticalLayout from 'src/@core/layouts/VerticalLayout'
 
 // ** Navigation Imports
 import VerticalNavItems from 'src/navigation/vertical'
-import AdminNavigation from 'src/navigation/vertical/admin-nav'
 
 // ** Component Import
 import VerticalAppBarContent from './components/vertical/AppBarContent'
@@ -26,6 +25,7 @@ const UserLayout = ({ children }) => {
    *  You can change the screen size from which you want to hide the current layout menu.
    *  Please refer useMediaQuery() hook: https://mui.com/components/use-media-query/,
    *  to know more about what values can be passed to this hook.
+   *  ! Do not change this value unless you know what you are doing. It can break the template.
    */
   const hidden = useMediaQuery(theme => theme.breakpoints.down('lg'))
 
