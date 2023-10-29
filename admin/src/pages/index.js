@@ -24,6 +24,7 @@ import { Receipt } from '@mui/icons-material'
 import Button from '@mui/material/Button'
 import Alert from '@mui/material/Alert'
 import { makeStyles } from '@mui/styles'
+import MedicationLiquidOutlinedIcon from '@mui/icons-material/MedicationLiquidOutlined';
 
 require('dotenv').config()
 
@@ -161,7 +162,7 @@ const SignPage = () => {
             <Alert severity="success">{successMessage}</Alert>
           )}<br></br>
           <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <ReceiptLongOutlinedIcon color='primary' />
+            <MedicationLiquidOutlinedIcon color='primary' />
             <Typography
               variant='h6'
               sx={{
@@ -177,7 +178,7 @@ const SignPage = () => {
           </Box>
           <Box sx={{ mb: 6 }}>
             <Typography variant='body2' align='center'>
-              Masuk Ke Akun Anda Untuk Melanjutkan
+              Login Admin Katalog Obat
             </Typography>
           </Box>
           <form noValidate autoComplete="off" onSubmit={(e) => e.preventDefault()}>
