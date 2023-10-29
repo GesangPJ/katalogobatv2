@@ -12,17 +12,6 @@ const AppBarContent = (props) => {
   const { hidden, settings, saveSettings, toggleNavVisibility } = props;
   const hiddenSm = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
-  const [sessionData, setSessionData] = useState(null);
-
-  useEffect(() => {
-    // Retrieve the session data from session storage
-    const sessionDataStr = sessionStorage.getItem('sessionData');
-    if (sessionDataStr) {
-      const sessionData = JSON.parse(sessionDataStr);
-      setSessionData(sessionData);
-    }
-  }, []);
-
   return (
     <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space between' }}>
       <Box className="actions-left" sx={{ mr: 2, display: 'flex', justifyContent: 'flex-end' }}>
@@ -40,7 +29,7 @@ const AppBarContent = (props) => {
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <ModeToggler settings={settings} saveSettings={saveSettings} />
           <Typography variant="body1" sx={{ fontWeight: 600 }}>
-            {sessionData ? sessionData.username : 'User'}
+
           </Typography>
           <UserDropdown />
         </div>
