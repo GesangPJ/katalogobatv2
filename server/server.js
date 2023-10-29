@@ -8,6 +8,7 @@ const winston = require('winston')
 const expressWinston = require('express-winston')
 const session = require('express-session')
 const dayjs = require('dayjs')
+const path = require('path')
 const PREFLIGHT = process.env.PREFLIGHT
 dotenv.config()
 
