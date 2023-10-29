@@ -6,12 +6,12 @@ module.exports = {
   reactStrictMode: false,
   distDir: 'build',
   compiler: {
-    swcMinify: false
+    //swcMinify: false
   },
   experimental: {
-    pageDataCollectionTimeout: 200000,
-    esmExternals: false,
-    jsconfigPaths: true // enables it for both jsconfig.json and tsconfig.json
+    //pageDataCollectionTimeout: 200000,
+    //esmExternals: false,
+    //jsconfigPaths: true // enables it for both jsconfig.json and tsconfig.json
   },
   webpack: config => {
     config.resolve.alias = {
