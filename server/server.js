@@ -6,13 +6,17 @@ const bcrypt = require('bcrypt')
 const logDirectory = 'logs'
 const winston = require('winston')
 const expressWinston = require('express-winston')
+const http = require('http')
 const session = require('express-session')
 const dayjs = require('dayjs')
 const path = require('path')
+const fs = require('fs')
 const PREFLIGHT = process.env.PREFLIGHT
 dotenv.config()
 
 const app = express()
+
+const server = http.createServer(app)
 
 // Menentukan izin akses ke server API
 const corsOptions = {
