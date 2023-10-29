@@ -28,7 +28,6 @@ const FormAdmin = () => {
   const [nama, setnama] = useState('')
   const [email, setemail] = useState('')
   const [password, setpassword] = useState('')
-  const [id_petugas, setidpetugas] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -55,6 +54,7 @@ const FormAdmin = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Key-Api': process.env.NEXT_PUBLIC_SECRET_API_KEY,
         },
         body: JSON.stringify(AkunData),
       })
@@ -64,7 +64,6 @@ const FormAdmin = () => {
         setnama('')
         setemail('')
         setpassword('')
-        setidpetugas('')
         setTimeout(() => {
           setSuccessMessage('')
         }, 5000)
