@@ -3,24 +3,16 @@ import Box from '@mui/material/Box'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import { useState, useEffect } from 'react'
 import Alert from '@mui/material/Alert'
-import { makeStyles } from '@mui/styles'
-import Chip from '@mui/material/Chip'
 import { useRouter } from 'next/router'
 import styled from '@emotion/styled'
 import Button from '@mui/material/Button'
 import dayjs from 'dayjs'
 import id from 'dayjs/locale/id'
-import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined'
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
-import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined'
-import PauseCircleOutlineOutlinedIcon from '@mui/icons-material/PauseCircleOutlineOutlined'
-import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined'
 
 dayjs.locale(id)
 
 require('dotenv').config()
 
-const AksesKunci = process.env.NEXT_PUBLIC_SECRET_API_KEY
 const headers = { 'Key-Api': process.env.NEXT_PUBLIC_SECRET_API_KEY, }
 
 const RoundedRectangleButton = styled(Button)`
@@ -32,7 +24,7 @@ const RoundedRectangleButton = styled(Button)`
 
 // SSR Biar bisa ambil data waktu production build
 export async function getServerSideProps() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ambil-dashboard-komplit`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ambil-obat-generik`, {
     headers: headers,
   })
   const data = await response.json()
@@ -60,9 +52,15 @@ const columns = [
     editable: true,
   },
   {
+    field: 'formula',
+    headerName: 'Formula Obat',
+    width: 100,
+    editable: true,
+  },
+  {
     field: 'manfaat',
     headerName: 'Manfaat Utama',
-    width: 80,
+    width: 180,
     editable: true,
   },
   {
@@ -83,13 +81,11 @@ const columns = [
 const ObatGenerik = () => {
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [totalbentuk, setTotalbentuk] = useState(0)
-  const [filteredData, setFilteredData] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ambil-dashboard-komplit`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ambil-obat-generik`, {
           headers: headers,
         })
         if (response.ok) {
@@ -99,7 +95,7 @@ const ObatGenerik = () => {
           const router = useRouter()
           router.push('/401')
         } else {
-          console.error('Error mengambil dashboard admin.')
+          console.error('Error mengambil obat generik')
         }
       } catch (error) {
         console.error('Error:', error)
@@ -125,6 +121,7 @@ const ObatGenerik = () => {
     id: row.id_request || `row-${index}`,
     namaobat: row.namaobat,
     kategori: row.kategori,
+    formula: row.formula,
     manfaat: row.manfaat,
     bentuk: row.bentuk,
   }))
