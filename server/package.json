@@ -2,9 +2,9 @@
   "name": "katalogobat2-server",
   "version": "2.0.0",
   "description": "API Server Untuk Katalog Obat",
-  "main": "server.js",
   "scripts": {
-    "test": "node"
+    "test": "node",
+    "start": "node server.js"
   },
   "keywords": [
     "api",
@@ -26,6 +26,7 @@
     "express-session": "^1.17.3",
     "express-winston": "^4.2.0",
     "mongodb": "^6.2.0",
+    "nodemon": "^3.0.1",
     "winston": "^3.11.0"
   }
 }
