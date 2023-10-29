@@ -87,6 +87,11 @@ console.log = function (message) {
 
 //---------------------------------------------------------------------------------------------------------
 
+//Bcrypt cek password
+const CekPassword = async (plainPassword, hashedPassword) => {
+    return await bcrypt.compare(plainPassword, hashedPassword)
+}
+
 // API Auth pakai API KEY
 function CekAPIKey(req, res, next) {
     const apiKey = req.header('Key-Api')
@@ -122,12 +127,38 @@ app.get('/api/mongodb-status', CekAPIKey, async (req, res) => {
   })
   
   // Kirim status server
-  app.get('/api/server-status', (req, res) => {
+app.get('/api/server-status', (req, res) => {
     res.json({ status: 'Online' })
-  })
-  
-  // Kirim (POST) data obat_generik ke MongoDB
-  app.post('/api/tambah-obat-generik', CekAPIKey, async (req, res) => {
+})
+
+// Ambil data obat generik dari MongoDB
+app.get('/api/ambil-obat-generik', CekAPIKey, async (req, res) => {
+    try {
+        const db = await connectToMongoDB()
+        const obatGenerikCollection = db.collection('obat_generik')
+        const data = await obatGenerikCollection.find({}).toArray()
+        res.json(data)
+    } catch (error) {
+        console.error('Error fetching obat generik data:', error)
+        res.status(500).json({ error: 'Internal Server Error' })
+    }
+})
+
+// Ambil data obat herbal dari MongoDB
+app.get('/api/ambil-obat-herbal', CekAPIKey, async (req, res) => {
+    try {
+        const db = await connectToMongoDB()
+        const obatHerbalCollection = db.collection('obat_herbal')
+        const data = await obatHerbalCollection.find({}).toArray()
+        res.json(data)
+    } catch (error) {
+        console.error('Error fetching obat herbal data:', error)
+        res.status(500).json({ error: 'Internal Server Error' })
+    }
+})
+
+// Kirim (POST) data obat_generik ke MongoDB
+app.post('/api/tambah-obat-generik', CekAPIKey, async (req, res) => {
   
     const { namaobat, kategori, manfaat, bentuk, peringatan, formula, efeksamping } = req.body
   
@@ -144,22 +175,9 @@ app.get('/api/mongodb-status', CekAPIKey, async (req, res) => {
       console.error('Error adding obat:', error)
       res.status(500).json({ error: 'Internal Server Error' })
     }
-  })
-  
-  // Ambil data obat generik dari MongoDB
-  app.get('/api/ambil-obat-generik', CekAPIKey, async (req, res) => {
-    try {
-      const db = await connectToMongoDB()
-      const obatGenerikCollection = db.collection('obat_generik')
-      const data = await obatGenerikCollection.find({}).toArray()
-      res.json(data)
-    } catch (error) {
-      console.error('Error fetching obat generik data:', error)
-      res.status(500).json({ error: 'Internal Server Error' })
-    }
-  })
+})
 
-  // Kirim (POST) data obat_herbal ke MongoDB
+// Kirim (POST) data obat_herbal ke MongoDB
 app.post('/api/tambah-obat-herbal', CekAPIKey, async (req, res) => {
 
     const { namaobat, namailmiah, kategori, manfaat, peringatan, efeksamping } = req.body
@@ -178,18 +196,28 @@ app.post('/api/tambah-obat-herbal', CekAPIKey, async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' })
     }
 })
-  
-// Ambil data obat herbal dari MongoDB
-app.get('/api/ambil-obat-herbal', CekAPIKey, async (req, res) => {
+
+// Tambah Akun
+app.post('/api/tambah-akun', CekAPIKey, async (req, res) => {
+
+    const { nama, email, password } = req.body
+
+    const hashedPassword = await bcrypt.hash(password, 10)
+
     try {
-      const db = await connectToMongoDB()
-      const obatHerbalCollection = db.collection('obat_herbal')
-      const data = await obatHerbalCollection.find({}).toArray()
-      res.json(data)
-    } catch (error) {
-      console.error('Error fetching obat herbal data:', error)
-      res.status(500).json({ error: 'Internal Server Error' })
+        const db = await connectToMongoDB()
+        const akunCollection = db.collection('akun')
+
+        await akunCollection.insertOne({ nama, email, hashedPassword })
+
+        res.status(201).json({ message: `Akun ${nama} berhasil ditambahkan` })
+        console.log(`Akun ${nama} berhasil ditambahkan`)
     }
+    catch (error) {
+        res.status(500).json({ error: `Error Server tidak dapat menambahkan akun` })
+        console.error(`Error Server tidak dapat menambahkan akun ${nama}`)
+    }
+
 })
 
   // Set Port buat server
