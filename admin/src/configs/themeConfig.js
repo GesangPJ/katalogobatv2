@@ -1,5 +1,5 @@
 const themeConfig = {
-  templateName: 'KATALOG OBAT v2',
+  templateName: 'KATALOG OBAT v2-ADMIN',
   buildVersion: 'v2.0.0-Admin',
   backVersion: 'v2.0.0-Client',
   layout: 'vertical',
